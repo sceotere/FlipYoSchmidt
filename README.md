@@ -8,4 +8,4 @@ The game is created by Schmidt Development with the following team members:
 
 Development will be on Unity version 2019.1.14f1 targeted at a WebGL build.
 
-For more information or documentation, refer to the appropriate pages of the [wiki](https://github.com/sceotere/FlipYoSchmidt/wiki).
+For more information or documentation, refer to the appropriate pages of the [wiki](wiki).
