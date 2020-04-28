@@ -153,7 +153,7 @@ Transform:
   m_LocalScale: {x: 15, y: 15, z: 15}
   m_Children: []
   m_Father: {fileID: 1756419224}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &85127725
 BoxCollider:
@@ -264,7 +264,7 @@ Transform:
   m_LocalScale: {x: 20, y: 6, z: 30}
   m_Children: []
   m_Father: {fileID: 1756419224}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &335199057
 BoxCollider:
@@ -433,7 +433,7 @@ Transform:
   - {fileID: 2069779272}
   - {fileID: 1499430520}
   m_Father: {fileID: 1756419224}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1164061731
 GameObject:
@@ -669,7 +669,7 @@ Transform:
   m_LocalScale: {x: 15, y: 15, z: 15}
   m_Children: []
   m_Father: {fileID: 1756419224}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1303464074
 BoxCollider:
@@ -715,7 +715,7 @@ Transform:
   m_LocalScale: {x: 20, y: 6, z: 30}
   m_Children: []
   m_Father: {fileID: 1756419224}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1388915152
 BoxCollider:
@@ -939,7 +939,7 @@ Transform:
   m_LocalScale: {x: 3, y: 10.74, z: 1}
   m_Children: []
   m_Father: {fileID: 1756419224}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
 --- !u!1 &1587605752
 GameObject:
@@ -1249,13 +1249,13 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1511420986}
   - {fileID: 1303464073}
   - {fileID: 85127724}
   - {fileID: 1388915151}
   - {fileID: 335199056}
   - {fileID: 1115305611}
   - {fileID: 1863309757}
-  - {fileID: 1511420986}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1289,7 +1289,7 @@ Transform:
   m_Children:
   - {fileID: 1587605753}
   m_Father: {fileID: 1756419224}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1863309758
 Rigidbody:
