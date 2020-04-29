@@ -5,9 +5,10 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
-    public float gravity = 2.0f;
 
     public float speed = 12f;
+
+    public float gravity = 1.0f;
 
     // Update is called once per frame
     void Update()
@@ -29,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         //Account for gravity
+        Physics.gravity = new Vector3(0.0f, -1 * gravity, 0.0f); 
         Vector3 grav = (-transform.up * gravity);
         controller.Move(grav * speed * Time.deltaTime);
     }
