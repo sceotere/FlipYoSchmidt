@@ -4,7 +4,7 @@
  * MouseLook.cs
  * Description: Script that controls the first person camera
  * 
- * Author: Jake Gianola, Joseph Goh
+ * Author: Jake Gianola
  * Acknowledgements: Adapted from Unity First Person Movement Tutorial https://youtu.be/_QajrabyTJc 
  * Last Updated: 05/12/2020
  */

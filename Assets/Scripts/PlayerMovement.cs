@@ -2,20 +2,22 @@
  * Flip Yo' Schmidt
  * 
  * PlayerMovement.cs
- * Description: Script that controls player movement, gravity, and the first person camera
+ * Description: Script that controls player movement, gravity, and interactions with environment stuff
  * 
  * Author: Jake Gianola, Joseph Goh
  * Acknowledgements: N/A
- * Last Updated: 05/12/2020
+ * Last Updated: 05/13/2020
  */
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
+    public GameEnding gameEnding;
 
     public float speed = 12f;
     public float gravity = 1.0f; // Gravity magnitude to be used
@@ -35,6 +37,11 @@ public class PlayerMovement : MonoBehaviour
         // Quit the game on hitting escape
         if (Input.GetKeyDown(KeyCode.Escape)) {
         Application.Quit();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         // Set the isGrounded variable appropriately
@@ -99,6 +106,26 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             isGrounded = false;
+        }
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.CompareTag("Finish"))
+        {
+            gameEnding.LevelCleared();
+        }
+        else if (hit.gameObject.CompareTag("Lava"))
+        {
+            gameEnding.PlayerDeath();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Finish"))
+        {
+            gameEnding.LevelCleared();
         }
     }
 }
