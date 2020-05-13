@@ -9,9 +9,11 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 12f;
     public float gravity = 1.0f; // Gravity magnitude to be used
 
-    int orientation = 1; // Gravitational orientation, switches between 1 and -1
+    public static int orientation = 1; // Gravitational orientation, switches between 1 and -1
     bool isGrounded = true; // Our own isGrounded variable since we can be on the ceiling too
     float y_vel = 0; // y-axis (vertical in a 3d sense) velocity for gravity
+
+    bool isflipping = false; //Bool to check if the player is upside down or right side up
 
     private void Start()
     {
@@ -53,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             orientation *= -1;
+            isflipping = !isflipping;
             // Not sure what gravity multiplier best syncs player acceleration with normal rigidbody acceleration
             Physics.gravity = new Vector3(0.0f, -1 * orientation * gravity * 10f, 0.0f);
             isGrounded = false;
@@ -60,8 +63,18 @@ public class PlayerMovement : MonoBehaviour
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
+        Vector3 move;
 
-        Vector3 move = transform.right * x + transform.forward * z;
+        if(orientation < 0)
+        {
+            move = transform.right * -1 * x + transform.forward * z;
+        }
+
+        else
+        {
+            move = transform.right * x + transform.forward * z;
+        }
+
 
         // If the player is not currently grounded, adjust y_vel for gravity
         if (!isGrounded)
@@ -72,5 +85,19 @@ public class PlayerMovement : MonoBehaviour
         move.y = y_vel;
 
         controller.Move(move * speed * Time.deltaTime);
+
+        /*Flip camera if gravity is reversed.
+        if(orientation < 0 && isflipping == true)
+        {
+            transform.rotation = Quaternion.Euler(180, 0, 0);
+            isflipping = false;
+        }
+
+        //Flip camera back if gravity is normal.
+        else if (orientation > 0 && isflipping == false)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            isflipping = true;
+        } */
     }
 }
