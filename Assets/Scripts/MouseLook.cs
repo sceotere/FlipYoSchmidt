@@ -1,11 +1,17 @@
-﻿using System.Collections;
+﻿/*
+ * Flip Yo' Schmidt
+ * 
+ * MouseLook.cs
+ * Description: Script that controls the first person camera
+ * 
+ * Author: Jake Gianola, Joseph Goh
+ * Acknowledgements: Adapted from Unity First Person Movement Tutorial https://youtu.be/_QajrabyTJc 
+ * Last Updated: 05/12/2020
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-/* This code is a slightly modified version of the code found in this
-Unity First Person Movement Tutorial on Youtube: 
-https://www.youtube.com/watch?v=_QajrabyTJc 
-*/
 
 public class MouseLook : MonoBehaviour
 {
@@ -26,9 +32,6 @@ public class MouseLook : MonoBehaviour
     {
         //Locks the cursor into the middle of the screen and hides it on game startup
         Cursor.lockState = CursorLockMode.Locked;
-
-        //Set initial camera position
-        transform.position = new Vector3(transform.position.x, transform.position.y + 1.6f, transform.position.z);
     }
 
     // Update is called once per frame
