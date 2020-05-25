@@ -24,8 +24,17 @@ public class MouseLook : MonoBehaviour
     //Used to allow the player to look up and down
     float xRotation = 0f;
 
+    //Used to smoothly change the gravity by keeping track of the frames
+    int framecount = 0;
+
     //Used to see if the player is flipped so that the camera can adjust properly
     bool flipped = false;
+
+    //Input from the mouse (X axis)
+    float mouseX;
+
+    //Gravity orientation for the player. -1 is upside down, 1 is normal
+    float orientation;
 
     // Start is called before the first frame update
     void Start()
@@ -34,42 +43,68 @@ public class MouseLook : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //Get player orientation from the PlayerMovement script
-        float orientation = PlayerMovement.orientation;
+        orientation = PlayerMovement.orientation;
 
         //Flip camera position based on gravity
 
-        //Gravity is reversed
+
+        //START OF SMOOTH CAMERA FLIPPER: flipping smoothly upside down in 36 frames.
+        //Gravity is normal, player wants it upside down.
         if (orientation < 0 && !flipped)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y - 2.0f, transform.position.z);
-            flipped = true;
+            framecount = framecount + 1;
+            Vector3 cameraRotate = new Vector3(0, 0, 10 * framecount);
+            transform.localRotation = Quaternion.Euler(xRotation, 0.0f, (5.0f * framecount));
+            // COMMENTED OUTtransform.position = new Vector3(transform.position.x, transform.position.y - 2.0f, transform.position.z);
+            if (framecount > 35)
+            {
+                flipped = true;
+                framecount = 0;
+            }
+
         }
-        //Gravity is normal
-        else if (orientation > 0 && flipped) {
-            transform.position = new Vector3(transform.position.x, transform.position.y + 2.0f, transform.position.z);
-            flipped = false;
+        //Gravity is upside down, player wants it back to normal
+        else if (orientation > 0 && flipped)
+        {
+            framecount = framecount + 1;
+            //Vector3 cameraRotate = new Vector3(0, 0,  10* framecount);
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 180f - (5.0f * framecount));
+
+            //transform.position = new Vector3(transform.position.x, transform.position.y + 2.0f, transform.position.z);
+            if (framecount > 35)
+            {
+                flipped = false;
+                framecount = 0;
+            }
         }
+        //END OF SMOOTH CAMERA FLIPPER
+    }
+
+    // Update is called possibly multiples times per frame
+    void Update()
+    {
 
         //Scales based on mouse sensitivity and per frame
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+        mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        
+
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f); //Gives the camera a human perspective
-        if (orientation < 0)
+
+        //if player is done flipping upside down, make sure player can still look up and down correctly
+        if (orientation < 0 && flipped)
         {
-            transform.localRotation = Quaternion.Euler(180.0f + xRotation, 180f, 0f);
             playerbody.Rotate(Vector3.down * mouseX);
+            transform.localRotation = Quaternion.Euler(-xRotation, 0f, 180f);
         }
-        else
+        else if (orientation > 0 && !flipped)
         {
-            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
             playerbody.Rotate(Vector3.up * mouseX);
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         }
     }
 }

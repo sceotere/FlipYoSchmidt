@@ -59,9 +59,13 @@ public class PlayerMovement : MonoBehaviour
         {
             FlipGravity();
         }
-
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        float x;
+        float z;
+        
+        //if gravity is flipped, reverse controls to make it normal for player
+        x = Input.GetAxis("Horizontal");
+        z = Input.GetAxis("Vertical");
+      
         Vector3 move;
 
         // Multiply x by orientation to match camera left/right
