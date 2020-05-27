@@ -6,7 +6,7 @@
  * 
  * Author: Joseph Goh
  * Acknowledgements: Adapted code from Jimmy Vegas https://youtu.be/IEV64CLZra8
- * Last Updated: 05/13/2020
+ * Last Updated: 05/27/2020
  */
 
 using System.Collections;
@@ -14,35 +14,35 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PickUp : MonoBehaviour
-{
+{       
     public Transform pickUpDestination;
-    public ColliderType colliderType;
-    public float roomHeight = 20f;
-
-    public enum ColliderType
-    {
-        Box,
-        Sphere,
-        Capsule
-    }
 
     public GameEnding gameEnding;
 
-    bool destroy = false;
+    bool respawn = false;
+
+    Rigidbody r;
+    Transform t;
+    Vector3 orig_position;
+
+    private void Start()
+    {
+        r = GetComponent<Rigidbody>();
+        t = this.transform;
+        orig_position = t.position;
+    }
 
     private void Update()
     {
-        if (!GetComponent<AudioSource>().isPlaying && destroy)
+        if (!GetComponent<AudioSource>().isPlaying && respawn)
         {
-            gameEnding.BallDestroyed();
-            Destroy(this.gameObject);
+            GetComponent<Rigidbody>().isKinematic = false;
+            RespawnBall();
         }
     }
 
     private void OnMouseDown()
     {
-        Rigidbody r = GetComponent<Rigidbody>();
-        Transform t = this.transform;
         /*
         // Temporarily turn off collider
         if (colliderType == ColliderType.Sphere)
@@ -62,8 +62,6 @@ public class PickUp : MonoBehaviour
 
     private void OnMouseUp()
     {
-        Rigidbody r = GetComponent<Rigidbody>();
-        Transform t = this.transform;
 
         // Detach the object from the player
         t.parent = null;
@@ -83,10 +81,18 @@ public class PickUp : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Lava")
+        if (collision.gameObject.CompareTag("Lava"))
         {
+            r.useGravity = false;
+            r.isKinematic = true;
             GetComponent<AudioSource>().Play();
-            destroy = true;
+            respawn = true;
         }
+    }
+
+    void RespawnBall()
+    {
+        t.position = orig_position;
+        respawn = false;
     }
 }
