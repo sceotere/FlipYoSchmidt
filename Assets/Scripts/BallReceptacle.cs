@@ -1,4 +1,13 @@
-﻿/* * Flip Yo' Schmidt *  * BallReceptacle.cs * Description: Script controlling Ball Receptacles and their interactions with doors *  * Author: Joseph Goh * Acknowledgements: N/A * Last Updated: 05/13/2020 */
+﻿/*
+ * Flip Yo' Schmidt
+ * 
+ * BallReceptacle.cs
+ * Description: Script controlling Ball Receptacles and their interactions with doors
+ * 
+ * Author: Joseph Goh
+ * Acknowledgements: N/A
+ * Last Updated: 05/13/2020
+ */
 
 using System.Collections;
 using System.Collections.Generic;
