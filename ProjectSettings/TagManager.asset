@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Lava
   - Ball
+  - LevelExitTrigger
   layers:
   - Default
   - TransparentFX
