@@ -1,8 +1,8 @@
 ﻿/*
  * Flip Yo' Schmidt
  * 
- * BallReceptacle.cs
- * Description: Script controlling game ending UI
+ * UIController.cs
+ * Description: Script controlling UI and game end events
  * 
  * Author: Joseph Goh
  * Acknowledgements: N/A
@@ -18,12 +18,9 @@ public class GameEnding : MonoBehaviour
     public CanvasGroup levelClearedCanvasGroup, ballDestroyedCanvasGroup, playerDeathCanvasGroup;
     public float fadeDuration = 2.0f;
 
-    public AudioSource victoryAudio, loseAudio;
-
     bool levelCleared = false;
     bool ballDestroyed = false;
     bool playerDeath = false;
-    bool hasAudioPlayed = false;
 
     float timer = 0.0f;
 
@@ -32,15 +29,15 @@ public class GameEnding : MonoBehaviour
     {
         if (levelCleared)
         {
-            EndLevel(levelClearedCanvasGroup, victoryAudio);
+            EndLevel(levelClearedCanvasGroup);
         }
         else if (playerDeath)
         {
-            EndLevel(playerDeathCanvasGroup, loseAudio);
+            EndLevel(playerDeathCanvasGroup);
         }
         else if (ballDestroyed)
         {
-            EndLevel(ballDestroyedCanvasGroup, loseAudio);
+            EndLevel(ballDestroyedCanvasGroup);
         }
     }
 
@@ -59,14 +56,8 @@ public class GameEnding : MonoBehaviour
         playerDeath = true;
     }
 
-    private void EndLevel(CanvasGroup canvasGroup, AudioSource audioSource)
+    private void EndLevel(CanvasGroup canvasGroup)
     {
-        if (!hasAudioPlayed)
-        {
-            audioSource.Play();
-            hasAudioPlayed = true;
-        }
-
         timer += Time.deltaTime;
         canvasGroup.alpha = timer / fadeDuration;
     }

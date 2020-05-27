@@ -22,6 +22,7 @@ public class BallReceptacle : MonoBehaviour
         if (other.gameObject.CompareTag("Ball"))
         {
             linked_object.Activate();
+            GetComponent<AudioSource>().Play();
         }
     }
 

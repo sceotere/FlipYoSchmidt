@@ -25,16 +25,20 @@ public class PickUp : MonoBehaviour
     Transform t;
     Vector3 orig_position;
 
+    AudioSource[] audioSources;
+
     private void Start()
     {
         r = GetComponent<Rigidbody>();
         t = this.transform;
         orig_position = t.position;
+
+        audioSources = GetComponents<AudioSource>();
     }
 
     private void Update()
     {
-        if (!GetComponent<AudioSource>().isPlaying && respawn)
+        if (!audioSources[0].isPlaying && respawn)
         {
             r.useGravity = true;
             r.isKinematic = false;
@@ -86,7 +90,7 @@ public class PickUp : MonoBehaviour
         {
             r.useGravity = false;
             r.isKinematic = true;
-            GetComponent<AudioSource>().Play();
+            audioSources[0].Play();
             respawn = true;
         }
     }
@@ -95,5 +99,6 @@ public class PickUp : MonoBehaviour
     {
         t.position = orig_position;
         respawn = false;
+        audioSources[1].Play();
     }
 }

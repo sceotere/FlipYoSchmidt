@@ -26,6 +26,8 @@ public class PlayerMovement : MonoBehaviour
     bool isGrounded = true; // Our own isGrounded variable since we can be on the ceiling too
     float y_vel = 0; // y-axis (vertical in a 3d sense) velocity for gravity
 
+    bool hasPlayed = false;
+
     private void Start()
     {
         Physics.gravity = new Vector3(0.0f, -1 * gravity * 10f, 0.0f);
@@ -117,7 +119,34 @@ public class PlayerMovement : MonoBehaviour
     {
         if (hit.gameObject.CompareTag("Lava"))
         {
+            if (!hasPlayed)
+            {
+                GetComponent<AudioSource>().Play();
+                hasPlayed = true;
+            }
             gameEnding.PlayerDeath();
+        }
+        else if (hit.gameObject.CompareTag("Finish"))
+        {
+            if (!hasPlayed)
+            {
+                hit.gameObject.GetComponent<AudioSource>().Play();
+                hasPlayed = true;
+            }
+            gameEnding.LevelCleared();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Finish"))
+        {
+            if (!hasPlayed)
+            {
+                other.gameObject.GetComponent<AudioSource>().Play();
+                hasPlayed = true;
+            }
+            gameEnding.LevelCleared();
         }
     }
 }
