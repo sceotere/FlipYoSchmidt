@@ -36,7 +36,8 @@ public class PickUp : MonoBehaviour
     {
         if (!GetComponent<AudioSource>().isPlaying && respawn)
         {
-            GetComponent<Rigidbody>().isKinematic = false;
+            r.useGravity = true;
+            r.isKinematic = false;
             RespawnBall();
         }
     }
