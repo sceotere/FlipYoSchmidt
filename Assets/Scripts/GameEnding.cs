@@ -9,9 +9,12 @@ public class GameEnding : MonoBehaviour
     public CanvasGroup levelClearedCanvasGroup, ballDestroyedCanvasGroup, playerDeathCanvasGroup;
     public float fadeDuration = 2.0f;
 
+    public AudioSource victoryAudio, loseAudio;
+
     bool levelCleared = false;
     bool ballDestroyed = false;
     bool playerDeath = false;
+    bool hasAudioPlayed = false;
 
     float timer = 0.0f;
 
@@ -20,15 +23,15 @@ public class GameEnding : MonoBehaviour
     {
         if (levelCleared)
         {
-            EndLevel(levelClearedCanvasGroup);
+            EndLevel(levelClearedCanvasGroup, victoryAudio);
         }
         else if (playerDeath)
         {
-            EndLevel(playerDeathCanvasGroup);
+            EndLevel(playerDeathCanvasGroup, loseAudio);
         }
         else if (ballDestroyed)
         {
-            EndLevel(ballDestroyedCanvasGroup);
+            EndLevel(ballDestroyedCanvasGroup, loseAudio);
         }
     }
 
@@ -47,8 +50,14 @@ public class GameEnding : MonoBehaviour
         playerDeath = true;
     }
 
-    private void EndLevel(CanvasGroup canvasGroup)
+    private void EndLevel(CanvasGroup canvasGroup, AudioSource audioSource)
     {
+        if (!hasAudioPlayed)
+        {
+            audioSource.Play();
+            hasAudioPlayed = true;
+        }
+
         timer += Time.deltaTime;
         canvasGroup.alpha = timer / fadeDuration;
     }
