@@ -115,21 +115,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.gameObject.CompareTag("Finish"))
-        {
-            gameEnding.LevelCleared();
-        }
-        else if (hit.gameObject.CompareTag("Lava"))
+        if (hit.gameObject.CompareTag("Lava"))
         {
             gameEnding.PlayerDeath();
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Finish"))
-        {
-            gameEnding.LevelCleared();
         }
     }
 }

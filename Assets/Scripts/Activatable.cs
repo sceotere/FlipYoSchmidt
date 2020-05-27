@@ -30,17 +30,26 @@ public class Activatable : MonoBehaviour
     // Update is called once per frame
     protected void Update()
     {
-        if (perma_deactivated && t > 0)
+        if (perma_deactivated)
         {
-            t -= speed * Time.deltaTime;
+            if (t > 0)
+            {
+                t -= speed * Time.deltaTime;
+            }
         }
-        else if (activated && t < 1)
+        else if (!activated)
         {
-            t += speed * Time.deltaTime;
+            if (t > 0)
+            {
+                t -= speed * Time.deltaTime;
+            }
         }
-        else if (!activated && t > 0)
+        else if (activated)
         {
-            t -= speed * Time.deltaTime;
+            if (t < 1)
+            {
+                t += speed * Time.deltaTime;
+            }
         }
         self_transform.position = Vector3.Lerp(origLocation, targetLocation, t);
     }
