@@ -48,17 +48,20 @@ public class MouseLook : MonoBehaviour
         //Get player orientation from the PlayerMovement script
         orientation = PlayerMovement.orientation;
 
-        //Flip camera position based on gravity
-
-
         //START OF SMOOTH CAMERA FLIPPER: flipping smoothly upside down in 36 frames.
         //Gravity is normal, player wants it upside down.
         if (orientation < 0 && !flipped)
         {
             framecount = framecount + 1;
             Vector3 cameraRotate = new Vector3(0, 0, 10 * framecount);
-            transform.localRotation = Quaternion.Euler(xRotation, 0.0f, (5.0f * framecount));
-            // COMMENTED OUTtransform.position = new Vector3(transform.position.x, transform.position.y - 2.0f, transform.position.z);
+            transform.localRotation = Quaternion.Euler(-xRotation, 0.0f, (5.0f * framecount));
+            //setup camera position
+            if(framecount == 1)
+            {
+
+                transform.position = new Vector3(transform.position.x, (transform.position.y - 3.2f), transform.position.z);
+            }
+
             if (framecount > 35)
             {
                 flipped = true;
@@ -70,10 +73,24 @@ public class MouseLook : MonoBehaviour
         else if (orientation > 0 && flipped)
         {
             framecount = framecount + 1;
-            //Vector3 cameraRotate = new Vector3(0, 0,  10* framecount);
-            transform.localRotation = Quaternion.Euler(xRotation, 0f, 180f - (5.0f * framecount));
+            //Start changing the x rotation halfway through changing the z rotation to avoid weird camera snaps
+            if (framecount > 17)
+            {
+                transform.localRotation = Quaternion.Euler(xRotation, 0f, 180f - (5.0f * framecount));
+            }
 
-            //transform.position = new Vector3(transform.position.x, transform.position.y + 2.0f, transform.position.z);
+            //otherwise just change the z rotation only
+            else
+            {
+                transform.localRotation = Quaternion.Euler(xRotation, 0f, 180f - (5.0f * framecount));
+            }
+          
+            //setup camera position
+            if (framecount == 1)
+            {
+                transform.position = new Vector3(transform.position.x, (transform.position.y + 3.2f), transform.position.z);
+            }
+          
             if (framecount > 35)
             {
                 flipped = false;
