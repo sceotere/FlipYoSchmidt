@@ -2,11 +2,11 @@
  * Flip Yo' Schmidt
  * 
  * BallReceptacle.cs
- * Description: Script controlling Ball Receptacles and their interactions with doors
+ * Description: Script controlling BallReceptacles' activation of the linked_object
  * 
  * Author: Joseph Goh
  * Acknowledgements: N/A
- * Last Updated: 05/13/2020
+ * Last Updated: 05/27/2020
  */
 
 using System.Collections;
@@ -15,46 +15,13 @@ using UnityEngine;
 
 public class BallReceptacle : MonoBehaviour
 {
-    public GameObject door;
-    public float doorSpeed = 1.0f;
-
-    Vector3 origLocation, targetLocation, currentLocation;
-    bool activated = false;
-
-    float t = 0.0f;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        origLocation = door.transform.position;
-        currentLocation = origLocation;
-        targetLocation = origLocation + new Vector3(0.0f, 20.0f, 0.0f);
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        if (t < 1)
-        {
-            t += doorSpeed * Time.deltaTime;
-            if (activated)
-            {
-                door.transform.position = Vector3.Lerp(currentLocation, targetLocation, t);
-            }
-            else
-            {
-                door.transform.position = Vector3.Lerp(currentLocation, origLocation, t);
-            }
-        }
-    }
-
+    public Activatable linked_object;
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Ball"))
         {
-            activated = true;
-            t = 0.0f;
-            currentLocation = door.transform.position;
+            linked_object.Activate();
         }
     }
 
@@ -62,9 +29,7 @@ public class BallReceptacle : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ball"))
         {
-            activated = false;
-            t = 0.0f;
-            currentLocation = door.transform.position;
+            linked_object.Deactivate();
         }
     }
 }
