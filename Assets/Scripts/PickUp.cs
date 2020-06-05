@@ -56,13 +56,12 @@ public class PickUp : MonoBehaviour
         }
         */
 
-        // Temporarily turn off gravity and make kinematic
+        // Temporarily turn off gravity
         r.useGravity = false;
-        //r.isKinematic = true;
 
         // Attach it to the space in front of player
-        t.position = t.position;
         r.velocity = Vector3.zero;
+        t.position = pickUpDestination.position;
         t.parent = GameObject.Find("PickUpDestination").transform;
     }
 
@@ -80,9 +79,8 @@ public class PickUp : MonoBehaviour
         }
         */
         
-        // Turn gravity back on and make non-kinematic
+        // Turn gravity back on
         r.useGravity = true;
-        //r.isKinematic = false;
     }
 
     private void OnCollisionEnter(Collision collision)
