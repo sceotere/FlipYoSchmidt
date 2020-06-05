@@ -11,6 +11,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 
 public class PickUp : MonoBehaviour
@@ -23,7 +24,7 @@ public class PickUp : MonoBehaviour
 
     Rigidbody r;
     Transform t;
-    Vector3 orig_position;
+    UnityEngine.Vector3 orig_position;
 
     AudioSource[] audioSources;
 
@@ -32,6 +33,7 @@ public class PickUp : MonoBehaviour
         r = GetComponent<Rigidbody>();
         t = this.transform;
         orig_position = t.position;
+        t.parent = null;
 
         audioSources = GetComponents<AudioSource>();
     }
@@ -48,20 +50,15 @@ public class PickUp : MonoBehaviour
 
     private void OnMouseDown()
     {
-        /*
-        // Temporarily turn off collider
-        if (colliderType == ColliderType.Sphere)
-        {
-            GetComponent<SphereCollider>().enabled = false;
-        }
-        */
-
         // Temporarily turn off gravity
         r.useGravity = false;
 
         // Attach it to the space in front of player
-        r.velocity = Vector3.zero;
-        t.position = pickUpDestination.position;
+        r.velocity = UnityEngine.Vector3.zero;
+        if (t.parent == null)
+        {
+            t.position = pickUpDestination.position;
+        }
         t.parent = GameObject.Find("PickUpDestination").transform;
     }
 
@@ -70,14 +67,6 @@ public class PickUp : MonoBehaviour
 
         // Detach the object from the player
         t.parent = null;
-
-        /*
-        // Turn collider back on
-        if (colliderType == ColliderType.Sphere)
-        {
-            GetComponent<SphereCollider>().enabled = true;
-        }
-        */
         
         // Turn gravity back on
         r.useGravity = true;

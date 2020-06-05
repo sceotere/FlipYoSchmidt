@@ -134,9 +134,9 @@ public class PlayerMovement : MonoBehaviour
             }
             gameEnding.PlayerDeath();
         }
-        else if (hit.gameObject.CompareTag("LevelExit"))
+        else if (hit.gameObject.CompareTag("Checkpoint"))
         {
-            checkpoint = t.position;
+            checkpoint = hit.gameObject.transform.position;
             checkpoint.y = 10f;
         }
         else if (hit.gameObject.CompareTag("Finish"))
@@ -161,9 +161,9 @@ public class PlayerMovement : MonoBehaviour
             }
             gameEnding.LevelCleared();
         }
-        else if (other.gameObject.CompareTag("LevelExit"))
+        else if (other.gameObject.CompareTag("Checkpoint"))
         {
-            checkpoint = t.position;
+            checkpoint = other.gameObject.transform.position;
             checkpoint.y = 10f;
         }
     }
