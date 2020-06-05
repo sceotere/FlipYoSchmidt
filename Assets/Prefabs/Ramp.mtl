@@ -1,0 +1,12 @@
+# Blender MTL File: 'Ramp.blend'
+# Material Count: 1
+
+newmtl RampMaterial.001
+Ns 506.250000
+Ka 0.750000 0.750000 0.750000
+Kd 0.194646 0.213990 1.000000
+Ks 0.750000 0.750000 0.750000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 0.750000
+illum 6
