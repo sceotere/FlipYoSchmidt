@@ -26,29 +26,23 @@ public class PlayerMovement : MonoBehaviour
     bool isGrounded = true; // Our own isGrounded variable since we can be on the ceiling too
     float y_vel = 0; // y-axis (vertical in a 3d sense) velocity for gravity
 
+    Transform t;
+    Vector3 checkpoint; // Checkpoint position
+
     bool hasPlayed = false;
 
     private void Start()
     {
+        t = GetComponent<Transform>();
+        checkpoint = t.position;
         Physics.gravity = new Vector3(0.0f, -1 * gravity * 10f, 0.0f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Quit the game on hitting escape
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-        Application.Quit();
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-
         // Set the isGrounded variable appropriately
         SetGrounded();
-
         // If the player is grounded, y_vel should be a slight groundward force
         // This helps isGrounded be consistently updated.
         if (isGrounded)
@@ -56,32 +50,46 @@ public class PlayerMovement : MonoBehaviour
             y_vel = -0.01f * orientation;
         }
 
-        //If the player presses space, try to switch gravity
-        if (Input.GetKeyDown(KeyCode.Space))
+        // Quit the game on hitting escape
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            FlipGravity();
+            Application.Quit();
         }
-        float x;
-        float z;
-        
-        //if gravity is flipped, reverse controls to make it normal for player
-        x = Input.GetAxis("Horizontal");
-        z = Input.GetAxis("Vertical");
-      
-        Vector3 move;
-
-        // Multiply x by orientation to match camera left/right
-        move = transform.right * orientation * x + transform.forward * z;
-
-        // If the player is not currently grounded, adjust y_vel for gravity
-        if (!isGrounded)
+        // Reset player position to checkpoint on hitting R
+        else if (Input.GetKeyDown(KeyCode.R))
         {
-            y_vel -= orientation * gravity * Time.deltaTime;
+            t.position = checkpoint;
+            gameEnding.ClearCanvas();
         }
-        // Set move vector's y 
-        move.y = y_vel;
+        else
+        {
+            //If the player presses space, try to switch gravity
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                FlipGravity();
+            }
+            float x;
+            float z;
 
-        controller.Move(move * speed * Time.deltaTime);
+            //if gravity is flipped, reverse controls to make it normal for player
+            x = Input.GetAxis("Horizontal");
+            z = Input.GetAxis("Vertical");
+
+            Vector3 move;
+
+            // Multiply x by orientation to match camera left/right
+            move = transform.right * orientation * x + transform.forward * z;
+
+            // If the player is not currently grounded, adjust y_vel for gravity
+            if (!isGrounded)
+            {
+                y_vel -= orientation * gravity * Time.deltaTime;
+            }
+            // Set move vector's y 
+            move.y = y_vel;
+
+            controller.Move(move * speed * Time.deltaTime);
+        }
     }
 
     void FlipGravity()
@@ -126,6 +134,11 @@ public class PlayerMovement : MonoBehaviour
             }
             gameEnding.PlayerDeath();
         }
+        else if (hit.gameObject.CompareTag("LevelExit"))
+        {
+            checkpoint = t.position;
+            checkpoint.y = 10f;
+        }
         else if (hit.gameObject.CompareTag("Finish"))
         {
             if (!hasPlayed)
@@ -147,6 +160,11 @@ public class PlayerMovement : MonoBehaviour
                 hasPlayed = true;
             }
             gameEnding.LevelCleared();
+        }
+        else if (other.gameObject.CompareTag("LevelExit"))
+        {
+            checkpoint = t.position;
+            checkpoint.y = 10f;
         }
     }
 }

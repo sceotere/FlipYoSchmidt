@@ -15,11 +15,10 @@ using UnityEngine;
 
 public class GameEnding : MonoBehaviour
 {
-    public CanvasGroup levelClearedCanvasGroup, ballDestroyedCanvasGroup, playerDeathCanvasGroup;
+    public CanvasGroup levelClearedCanvasGroup, playerDeathCanvasGroup;
     public float fadeDuration = 2.0f;
 
     bool levelCleared = false;
-    bool ballDestroyed = false;
     bool playerDeath = false;
 
     float timer = 0.0f;
@@ -35,15 +34,6 @@ public class GameEnding : MonoBehaviour
         {
             EndLevel(playerDeathCanvasGroup);
         }
-        else if (ballDestroyed)
-        {
-            EndLevel(ballDestroyedCanvasGroup);
-        }
-    }
-
-    public void BallDestroyed()
-    {
-        ballDestroyed = true;
     }
 
     public void LevelCleared()
@@ -60,5 +50,14 @@ public class GameEnding : MonoBehaviour
     {
         timer += Time.deltaTime;
         canvasGroup.alpha = timer / fadeDuration;
+    }
+
+    public void ClearCanvas()
+    {
+        levelCleared = false;
+        playerDeath = false;
+        timer = 0f;
+        levelClearedCanvasGroup.alpha = 0f;
+        playerDeathCanvasGroup.alpha = 0f;
     }
 }
